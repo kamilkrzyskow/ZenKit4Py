@@ -211,7 +211,9 @@ class DaedalusSymbol:
         if self._keepalive.__class__.__name__ == "DaedalusVm" and self.type == DaedalusDataType.INSTANCE:
             class_sym = self.get_parent_as_symbol(find_root=True)
             if class_sym:  # Instances always have parent symbols, except for .PAR instances in functions...
-                return self._keepalive.init_instance(self, _CLASS_TYPES[class_sym.name])
+                typ = _CLASS_TYPES.get(class_sym.name)
+                if typ:  # Unknow classes ex. from Ikarus aren't linked to a type
+                    return self._keepalive.init_instance(self, typ)
         return None
 
     def __repr__(self) -> str:
