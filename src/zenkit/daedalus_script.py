@@ -209,7 +209,7 @@ class DaedalusSymbol:
             return self.get_int()
         if self.type == DaedalusDataType.STRING:
             return self.get_string()
-        if self.type == DaedalusDataType.INSTANCE and hasattr(self._keepalive, "init_instance"):
+        if self.type == DaedalusDataType.INSTANCE and self.is_const and hasattr(self._keepalive, "init_instance"):
             class_sym = self.get_parent_as_symbol(find_root=True)
             if class_sym:  # Instances always have parent symbols, except for .PAR instances in functions...
                 typ = _CLASS_TYPES.get(class_sym.name)
